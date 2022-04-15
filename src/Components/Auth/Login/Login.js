@@ -29,7 +29,9 @@ const Login = () => {
         username: id,
         password: password,
       });
-      setAccessToken('accessToken', result.data.token);
+      const token = result.data.token;
+      setAccessToken('accessToken', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       document.location.replace('/');
     } catch (error) {
       alert('아이디 또는 비밀번호가 틀립니다. 다시 입력해주세요');
