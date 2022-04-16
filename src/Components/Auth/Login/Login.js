@@ -30,7 +30,8 @@ const Login = () => {
         password: password,
       });
       const token = result.data.token;
-      setAccessToken('accessToken', token);
+      //  cookie.save;
+      //setAccessToken('accessToken', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       document.location.replace('/');
     } catch (error) {
