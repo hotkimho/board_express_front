@@ -56,6 +56,7 @@ const Post = () => {
           <div>{content}</div>
         </Form.Group>
       </Form>
+      <Button>삭제</Button>
     </PostContainer>
   );
 };

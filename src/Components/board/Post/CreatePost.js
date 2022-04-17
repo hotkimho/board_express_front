@@ -26,6 +26,7 @@ const CreatePost = () => {
 
   const onSubmut = async (e) => {
     e.preventDefault();
+    let message;
     const cookies = new Cookies();
     const token = cookies.get('accessToken');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -36,6 +37,7 @@ const CreatePost = () => {
       });
       document.location.replace('/board');
     } catch (error) {
+      alert('글쓰기 실패');
       console.log(error);
     }
   };
