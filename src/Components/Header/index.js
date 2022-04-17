@@ -27,6 +27,14 @@ const Header = () => {
                   Home
                 </a>
               </li>
+              <li>
+                <a href='/board' className='nav-link text-secondary'>
+                  <svg className='bi d-block mx-auto mb-1' width='24' height='24'>
+                    <use xlinkHref='#board' />
+                  </svg>
+                  게시판
+                </a>
+              </li>
             </ul>
           </div>
         </div>

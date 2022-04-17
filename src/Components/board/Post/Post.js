@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import './post.scss';
+import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Cookies } from 'react-cookie';
 import axios from 'axios';
+import qs from 'qs';
+import { useParams } from 'react-router-dom';
+import queryString from 'query-string';
 
 const PostContainer = styled.div`
   width: 500px;
@@ -15,46 +17,44 @@ const PostContainer = styled.div`
 
 const Post = () => {
   const [title, setTitle] = useState('');
+  const [writer, setWriter] = useState('');
   const [content, setContent] = useState('');
+  const params = useParams();
 
-  const onTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-  const onContentChange = (e) => {
-    setContent(e.target.value);
-  };
-  console.log(title, content);
-  const onSubmut = async (e) => {
-    e.preventDefault();
-    try {
-      const result = await axios.post('http://localhost:8000/board/post', {
-        title,
-        content,
-      });
-      const cookies = new Cookies();
-      console.log(cookies.get('accessToken'));
-      //axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const cookie = new Cookies();
+        const token = cookie.get('accessToken');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const id = params.id;
+        const post = await axios.get(`http://localhost:8000/board/${id}/post`);
+        setTitle(() => post.data.title);
+        setWriter(() => post.data.writer);
+        setContent(() => post.data.content);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  });
   return (
     <PostContainer>
-      <Form onSubmit={onSubmut}>
+      <Form>
         <Form.Group className='mb-3' controlId='formBasicTitle'>
           <Form.Label>제목</Form.Label>
-          <Form.Control onChange={onTitleChange} as='textarea' rows={1} placeholder='Enter Title' />
+          <div>{title}</div>
+        </Form.Group>
+
+        <Form.Group className='mb-3' controlId='formBasicContent'>
+          <Form.Label>작성자</Form.Label>
+          <div>{writer}</div>
         </Form.Group>
 
         <Form.Group className='mb-3' controlId='formBasicContent'>
           <Form.Label>내용</Form.Label>
-          <Form.Control o onChange={onContentChange} as='textarea' rows={5} placeholder='Enter Content' />
+          <div>{content}</div>
         </Form.Group>
-
-        <Button variant='primary' type='submit'>
-          글쓰기
-        </Button>
       </Form>
     </PostContainer>
   );
