@@ -9,6 +9,7 @@ import CreatePost from './Components/board/Post/CreatePost';
 import axios from 'axios';
 import Board from './Components/board/Board';
 import Post from './Components/board/Post/Post';
+import EditPost from './Components/board/Post/EditPost';
 
 function App() {
   return (
@@ -17,9 +18,11 @@ function App() {
         <Route path='/' element={<Header />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/board/:id/post' element={<Post />} />
-        <Route path='/board' element={<Board />} />
+        <Route path='/board/edit/:id/post' element={<EditPost />} />
+        <Route path='/board/remove/:id/post' element={<EditPost />} />
         <Route path='/board/post' element={<CreatePost />} />
+        <Route path='/board' element={<Board />} />
+        <Route path='/board/:id/post' element={<Post />} />
       </Routes>
     </div>
   );
