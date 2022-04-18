@@ -45,12 +45,12 @@ const CreatePost = () => {
     <PostContainer>
       <Form onSubmit={onSubmut}>
         <Form.Group className='mb-3' controlId='formBasicTitle'>
-          <Form.Label>제목</Form.Label>
+          <h4>제목</h4>
           <Form.Control onChange={onTitleChange} as='textarea' rows={1} placeholder='Enter Title' />
         </Form.Group>
 
         <Form.Group className='mb-3' controlId='formBasicContent'>
-          <Form.Label>내용</Form.Label>
+          <h4>내용</h4>
           <Form.Control o onChange={onContentChange} as='textarea' rows={5} placeholder='Enter Content' />
         </Form.Group>
 

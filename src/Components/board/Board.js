@@ -27,7 +27,6 @@ const Board = () => {
   const onPageChange = (page) => {
     setPage(page);
   };
-  console.log(page);
   useEffect(() => {
     const fetchData = async () => {
       const cookie = new Cookies();

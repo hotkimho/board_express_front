@@ -20,14 +20,13 @@ const Post = () => {
   const [writer, setWriter] = useState('');
   const [content, setContent] = useState('');
   const params = useParams();
-
+  const id = params.id;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const cookie = new Cookies();
         const token = cookie.get('accessToken');
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        const id = params.id;
         const post = await axios.get(`http://localhost:8000/board/${id}/post`);
         setTitle(() => post.data.title);
         setWriter(() => post.data.writer);
@@ -38,25 +37,50 @@ const Post = () => {
     };
     fetchData();
   });
+  const onEditClick = (e) => {
+    document.location.replace(`/board/edit/${id}/post`);
+  };
+  const onRemoveClick = async (e) => {
+    //document.location.replace(`/board/remove/${id}/post`);
+    try {
+      const cookie = new Cookies();
+      const token = cookie.get('accessToken');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      await axios.delete(`http://localhost:8000/board/post?postId=${id}`);
+      alert('게시글이 삭제되었습니다');
+      document.location.replace('/board');
+    } catch (error) {
+      alert('인가된 사용자가 아닙니다. (프론트엔드 영역에서 다른 사용자의 글 수정 페이지 접근을 막아야 함)');
+      document.location.replace('/board');
+    }
+  };
   return (
     <PostContainer>
       <Form>
         <Form.Group className='mb-3' controlId='formBasicTitle'>
-          <Form.Label>제목</Form.Label>
+          <h4>제목</h4>
           <div>{title}</div>
         </Form.Group>
 
         <Form.Group className='mb-3' controlId='formBasicContent'>
-          <Form.Label>작성자</Form.Label>
+          <h4>작성자</h4>
           <div>{writer}</div>
         </Form.Group>
 
         <Form.Group className='mb-3' controlId='formBasicContent'>
-          <Form.Label>내용</Form.Label>
+          <h4>제목</h4>
           <div>{content}</div>
         </Form.Group>
       </Form>
-      <Button>삭제</Button>
+      <Button
+        style={{
+          marginRight: '20px',
+        }}
+        onClick={onEditClick}
+      >
+        수정
+      </Button>
+      <Button onClick={onRemoveClick}>삭제</Button>
     </PostContainer>
   );
 };
